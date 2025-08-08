@@ -12,6 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useToast } from "@/components/ui/use-toast";
 import { generateContent, type ContentKind, type Vertical } from "@/utils/generator";
 import { cn } from "@/lib/utils";
@@ -206,16 +209,34 @@ const Index = () => {
               <div className="mt-6 grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Sortie</label>
-                  <Textarea
-                    value={output}
-                    onChange={(e) => setOutput(e.target.value)}
-                    placeholder="Votre contenu apparaîtra ici…"
-                    rows={12}
-                  />
-                  <div className="flex gap-3">
-                    <Button variant="secondary" onClick={handleCopy} disabled={!output}>Copier</Button>
-                    <Button variant="outline" onClick={() => setOutput("")}>Effacer</Button>
-                  </div>
+                  <Tabs defaultValue="edit" className="w-full">
+                    <TabsList className="mb-2">
+                      <TabsTrigger value="edit">Édition</TabsTrigger>
+                      <TabsTrigger value="preview">Aperçu</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="edit" className="space-y-2">
+                      <Textarea
+                        value={output}
+                        onChange={(e) => setOutput(e.target.value)}
+                        placeholder="Votre contenu apparaîtra ici…"
+                        rows={12}
+                      />
+                      <div className="flex gap-3">
+                        <Button variant="secondary" onClick={handleCopy} disabled={!output}>Copier</Button>
+                        <Button variant="outline" onClick={() => setOutput("")}>Effacer</Button>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="preview">
+                      <div className="prose prose-neutral dark:prose-invert max-w-none glass-panel rounded-md p-4">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {output || "Rien à prévisualiser pour l’instant."}
+                        </ReactMarkdown>
+                      </div>
+                      <div className="mt-3">
+                        <Button variant="secondary" onClick={handleCopy} disabled={!output}>Copier</Button>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
                 <div className="space-y-3">
                   <Card>
