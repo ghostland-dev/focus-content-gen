@@ -1,5 +1,7 @@
 # Focus Content Generator
 
+[![CI](https://github.com/ghostland-dev/focus-content-gen/actions/workflows/ci.yml/badge.svg)](https://github.com/ghostland-dev/focus-content-gen/actions/workflows/ci.yml)
+
 Markdown content generator with live preview.
 
 ## Features
